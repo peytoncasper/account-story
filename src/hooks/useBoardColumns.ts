@@ -81,3 +81,4 @@ function getBoardColumns(board: number | number[]) {
     { variables: { board } }
   );
 }
+
