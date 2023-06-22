@@ -28,13 +28,23 @@ export default function useBoards(context: AppContextType | undefined) {
     return boards;
 }
 
-function getBoards() {
+export function getBoards() {
     return executeMondayApiCall(
         `query{
             boards{
                 id
                 name
                 workspace_id
+                items {
+                    id
+                    name    
+                    column_values {
+                        id
+                        text
+                        title
+                        type
+                    }
+                }
             }
         }`,
         {variables: {}}

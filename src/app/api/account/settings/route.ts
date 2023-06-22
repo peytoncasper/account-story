@@ -1,21 +1,19 @@
 import { PrismaClient } from "@prisma/client"
 import { NextResponse } from "next/server"
+import {prisma} from "@/app";
 
 export const dynamic = 'force-dynamic'
 
-const prisma = new PrismaClient()
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const id = parseInt(searchParams.get('accountId') ?? "0")
-
-  const prisma = new PrismaClient()
   const settings = await prisma.mondayAccountSettings.findUnique({
     where: {
       account_id: id,
     }
   })
-  return NextResponse.json(settings ?? {})  
+  return NextResponse.json(settings ?? {})
 }
 
 
@@ -23,7 +21,6 @@ export async function POST(req: Request) {
   const reqJson = await req.json();
   console.log(reqJson)
 
-  const prisma = new PrismaClient()
   const settings = await prisma.mondayAccountSettings.upsert({
     where: {
       account_id: reqJson.account_id,
@@ -38,5 +35,6 @@ export async function POST(req: Request) {
       pm_workspace_id: reqJson.pm_workspace_id,
     },
   })
+
   return NextResponse.json(settings ?? {})  
 }

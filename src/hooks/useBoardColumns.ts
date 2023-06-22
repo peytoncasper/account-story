@@ -9,6 +9,8 @@ export default function useBoardColumns(context: AppContextType | undefined) {
   const [boardColumns, setBoardColumns] =
     useState<{ id: string; type: string; title: string }[]>();
 
+  console.log(context)
+
   useEffect(() => {
     // debugger;
     if (!boardColumns && context) {

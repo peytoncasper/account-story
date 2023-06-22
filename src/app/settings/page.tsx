@@ -11,7 +11,7 @@ import useAccount from "@/hooks/useAccount";
 import SelectWorkspace from "@/components/select-workspace";
 
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-static'
 
 type DropdownSelection = {
   label: string;
@@ -55,11 +55,13 @@ export default function Settings() {
 
   const account = useAccount(context);
 
+
   useEffect(() => {
     if(account) {
       getAccountSettings(account.id).then((res) => {
         setSettings(res)
       })
+
     }
 
   },[account])
@@ -116,11 +118,7 @@ export default function Settings() {
 
   return (
       <div className={styles.App}>
-        <AppContextProvider>
-          <>
-            {renderApp}
-          </>
-        </AppContextProvider>
+          {renderApp}
       </div>
   )
 }

@@ -4,3 +4,7 @@ node_modules
 package-lock.json
 .env
 **/migrations
+keys/
+.idea
+.DS_Store
+public/*.mp4

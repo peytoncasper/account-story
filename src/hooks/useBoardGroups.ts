@@ -3,33 +3,74 @@ import { showErrorMessage } from "@/helpers/monday-actions";
 import { AppContextType } from "@/types/context-type";
 import { executeMondayApiCall, MondayApiResponse } from "@/helpers/monday-api-helpers";
 
-export default function useBoardGroups(context: AppContextType | undefined) {
+// export default function useBoardGroups(context: AppContextType | undefined) {
+//     const [boardGroups, setBoardGroups] = useState<any>();
+//
+//     // fill second dropdown with groups from board
+//     useEffect(() => {
+//       if (!boardGroups && context) {
+//         const board = context?.iframeContext?.boardId ?? context?.iframeContext?.boardIds ?? [];
+//         getBoardGroups(board)
+//           .then((res: MondayApiResponse) => {
+//             if (!res.is_success) {
+//               showErrorMessage('Could not get groups from board.', 3000);
+//             } else {
+//                 console.log(res?.data)
+//
+//                 if(res?.data.boards.length > 0) {
+//                     const groups = res?.data.boards[0].groups
+//                     setBoardGroups(groups);
+//                 } else {
+//                     console.log(res?.data)
+//                 }
+//             }
+//             // const groupsForDropdown = mapBoardGroupsToDropdownOptions(res);
+//             // setBoardGroups(groupsForDropdown);
+//           })
+//           .catch((err: any) => console.error(err));
+//       }
+//     }, [context, boardGroups]);
+//
+//     return boardGroups;
+//   }
+
+export default function useBoardGroups(boardId: number) {
     const [boardGroups, setBoardGroups] = useState<any>();
-  
+
     // fill second dropdown with groups from board
     useEffect(() => {
-      if (!boardGroups && context) {
-        const board = context?.iframeContext?.boardId ?? context?.iframeContext?.boardIds ?? [];
-        getBoardGroups(board)
-          .then((res: MondayApiResponse) => {
-            if (!res.is_success) {
-              showErrorMessage('Could not get groups from board.', 3000);
-            } else {
-              const groups = res?.data.boards[0].groups
-              setBoardGroups(groups);
-            }
-            // const groupsForDropdown = mapBoardGroupsToDropdownOptions(res);
-            // setBoardGroups(groupsForDropdown);
-          })
-          .catch((err: any) => console.error(err));
-      }
-    }, [context, boardGroups]);
-  
+        console.log(boardId)
+
+        if (!boardGroups && boardId != 0) {
+            const board = [boardId]
+
+            getBoardGroups(board)
+                .then((res: MondayApiResponse) => {
+                    if (!res.is_success) {
+
+                        showErrorMessage('Could not get groups from board.', 3000);
+                    } else {
+                        console.log(res?.data)
+
+                        if(res?.data.boards.length > 0) {
+                            const groups = res?.data.boards[0].groups
+                            setBoardGroups(groups);
+                        } else {
+                            console.log(res?.data)
+                        }
+                    }
+                    // const groupsForDropdown = mapBoardGroupsToDropdownOptions(res);
+                    // setBoardGroups(groupsForDropdown);
+                })
+                .catch((err: any) => console.error(err));
+        }
+    }, [boardGroups]);
+
     return boardGroups;
-  }
+}
 
 
-function getBoardGroups(boardId: number | number[]): Record<string, any> {
+export function getBoardGroups(boardId: number | number[]): Record<string, any> {
     return executeMondayApiCall(
       `query($boardId:[Int!]) { boards(ids:$boardId) { groups { id title} } }`,
       {

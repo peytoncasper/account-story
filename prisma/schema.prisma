@@ -15,3 +15,11 @@ model MondayAccountSettings {
   crm_workspace_id  Int
   pm_workspace_id   Int
 }
+
+model Transcription {
+  file_id            String @id
+  account_id        Int
+  status            String
+  gcs_url           String
+  response          String
+}

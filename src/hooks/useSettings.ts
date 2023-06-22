@@ -6,9 +6,6 @@ import { executeMondayApiCall, MondayApiResponse } from "@/helpers/monday-api-he
 import mondaySdk from 'monday-sdk-js';
 const monday = mondaySdk();
 
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-
 function getSettings() {
   return monday.storage.instance.getItem('settings').then(res => {
  });

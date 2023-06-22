@@ -34,6 +34,7 @@ function getAccount() {
           users {
             account {
               id
+              name
             }
           }
         }`,
